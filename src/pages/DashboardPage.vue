@@ -2,19 +2,24 @@
 import DasboardLayout from '@/layouts/DashboardLayout.vue'
 import WidgetArea from '@/components/areas/WidgetArea.vue'
 import { useDragAndDropStore } from '@/stores/dragAndDrop'
+
 const dragAndDropStore = useDragAndDropStore()
+
 const drop = (event: DragEvent, area: string) => {
+  event.dataTransfer?.getData('text')
   dragAndDropStore.drop(event, area)
 }
+
 const allowDrop = (event: DragEvent) => {
-  event.preventDefault()
+  event.dataTransfer?.setData('text', 'widget')
+  dragAndDropStore.allowDrop(event)
 }
 </script>
 
 <template>
   <DasboardLayout>
     <template #widgetSide>
-      <div class="bg-red-300 h-full overflow-x-auto flex items-center px-10" @drop="drop($event, 'widgetArea')"
+      <div class=" h-full overflow-x-auto flex items-center px-10" @drop="drop($event, 'widgetArea')"
       @dragover="allowDrop($event)">
         <WidgetArea />
       </div>
