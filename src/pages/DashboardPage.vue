@@ -11,10 +11,10 @@ import WidgetArea from '@/components/areas/WidgetArea.vue'
       </div>
     </template>
     <template #rightSide>
-      <div class="rightArea bg-green-300 h-full overflow-y-auto">fvr</div>
+      <div class="rightArea bg-green-300 h-full overflow-y-auto">rightSide</div>
     </template>
     <template #leftSide>
-      <div class="leftArea bg-blue-200 h-full overflow-y-auto">dbt</div>
+      <div class="leftArea bg-blue-200 h-full overflow-y-auto">leftSide</div>
     </template>
   </DasboardLayout>
 </template>
