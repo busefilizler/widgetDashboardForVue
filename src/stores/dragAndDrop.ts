@@ -24,6 +24,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   };
 
   const handleDragOver = (event: DragEvent, side: string) => {
+    console.log("drag over", side);
     event.preventDefault();
   }
 

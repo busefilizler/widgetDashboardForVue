@@ -9,6 +9,8 @@ declare module 'vue' {
   export interface GlobalComponents {
     ElButton: typeof import('element-plus/es')['ElButton']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    LeftArea: typeof import('./src/components/areas/LeftArea.vue')['default']
+    RightArea: typeof import('./src/components/areas/RightArea.vue')['default']
     TodoWidget: typeof import('./src/components/widgets/TodoWidget.vue')['default']
     WeatherWidget: typeof import('./src/components/widgets/WeatherWidget.vue')['default']
     WidgetArea: typeof import('./src/components/areas/WidgetArea.vue')['default']

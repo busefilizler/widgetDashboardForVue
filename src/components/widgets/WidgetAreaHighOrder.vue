@@ -7,8 +7,6 @@
     draggable="true"
     @dragstart="drag($event, name || '', 'widgetArea')"
   >
-
-
       <div class="flex flex-col items-center justify-center gap-3 h-full px-2">
         <i :class="icon" class="text-violet-700 text-3xl"></i>
         <div class="text-2xl text-violet-700 font-medium">{{ name }}</div>

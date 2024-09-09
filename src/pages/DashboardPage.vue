@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import DasboardLayout from '@/layouts/DashboardLayout.vue'
 import WidgetArea from '@/components/areas/WidgetArea.vue'
+import RightArea from '@/components/areas/RightArea.vue'
+import LeftArea from '@/components/areas/LeftArea.vue'
 import { useDragAndDropStore } from '@/stores/dragAndDrop'
 
 const dragAndDropStore = useDragAndDropStore()
@@ -24,12 +26,17 @@ const allowDrop = (event: DragEvent) => {
         <WidgetArea />
       </div>
     </template>
-    <template #rightSide>
-      <div class="rightArea bg-green-300 h-full overflow-y-auto">rightSide</div>
-    </template>
     <template #leftSide>
-      <div class="leftArea bg-blue-200 h-full overflow-y-auto">leftSide</div>
+      <div class="leftArea bg-blue-200 h-full overflow-y-auto">
+        <LeftArea />
+      </div>
     </template>
+    <template #rightSide>
+      <div class="rightArea bg-green-300 h-full overflow-y-auto">
+        <RightArea />
+      </div>
+    </template>
+
   </DasboardLayout>
 </template>
 
