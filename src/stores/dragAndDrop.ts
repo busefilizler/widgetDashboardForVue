@@ -112,6 +112,9 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const drop = (event: DragEvent, side: string) => {
     event.preventDefault();
+    if (side === 'widgetArea') {
+      handleDropOnWidgetArea()
+    }
   };
 
   const handleDragOver = (event: DragEvent, side: string) => {
@@ -122,12 +125,14 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   const allowDrop = (event: DragEvent) => {
     event.preventDefault();
   };
+
   const handleDropOnWidgetArea = () => {
       dashboardItems.value = dashboardItems.value.filter(
         (item: { id: number }) =>
           item.id !== (draggedWidget.value as unknown as { id: number })?.id
       );
   };
+
   const getTargetIndex = (target: any) => {
     const parent = target.closest(".dashboardArea");
     if (parent) {
