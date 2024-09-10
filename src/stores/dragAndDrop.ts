@@ -85,7 +85,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   ]);
 
   // Sol ve sağ paneldeki widget'ları tutan reaktif değişkenler
-  const rightWidgetsItems = ref([
+  const dashboardItems = ref([
     {
       id: 1,
       name: "ToDo List",
@@ -108,8 +108,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const drag = (event: DragEvent, widget: any, side: string) => {
     draggedWidget.value = widget;
-    draggedFrom.value =
-      side === "left" ? "left" : side === "right" ? "right" : "";
   };
 
   const drop = (event: DragEvent, side: string) => {
@@ -125,13 +123,13 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     event.preventDefault();
   };
   const handleDropOnWidgetArea = () => {
-      rightWidgetsItems.value = rightWidgetsItems.value.filter(
+      dashboardItems.value = dashboardItems.value.filter(
         (item: { id: number }) =>
           item.id !== (draggedWidget.value as unknown as { id: number })?.id
       );
   };
   const getTargetIndex = (target: any) => {
-    const parent = target.closest(".rights");
+    const parent = target.closest(".dashboardArea");
     if (parent) {
       const children = Array.from(parent.children);
       while (target && target.parentElement !== parent) {
@@ -148,7 +146,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     drag,
     handleDragOver,
     widgetAreaItems,
-    rightWidgetsItems,
+    dashboardItems,
     draggedWidget,
     draggedFrom,
     allowDrop,

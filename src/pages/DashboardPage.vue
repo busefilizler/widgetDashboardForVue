@@ -25,7 +25,7 @@ const allowDrop = (event: DragEvent) => {
         <WidgetArea />
       </div>
     </template>
-    <template #rightSide>
+    <template #dashboardArea>
       <div class="dashboardArea h-full w-full px-4 py-4 overflow-y-auto">
         <DashboardArea />
       </div>
