@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import WidgetAreaHighOrder from '@/components/widgets/WidgetAreaHighOrder.vue'
+import { defineProps, toRefs } from "vue";
+const props = defineProps(
+  {
+    gridTemp: String,
+  }
+);
+const { gridTemp } = toRefs(props);
 </script>
 
 <template>
-  <WidgetAreaHighOrder :name="'ToDo'" :icon="'fa fa-list-ul'" :description="'Günlük görevlerinizi ve hatırlatmalarınızı ekleyebilirsiniz.'">
-  </WidgetAreaHighOrder>
+<div :class="gridTemp" class=" h-52 bg-white">todo</div>
 </template>

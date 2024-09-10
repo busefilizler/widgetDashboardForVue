@@ -1,8 +1,13 @@
 <script setup lang="ts">
-import WidgetAreaHighOrder from '@/components/widgets/WidgetAreaHighOrder.vue'
+import { defineProps, toRefs } from "vue";
+const props = defineProps(
+  {
+    gridTemp: String,
+  }
+);
+const { gridTemp } = toRefs(props);
 </script>
 
 <template>
-  <WidgetAreaHighOrder :name="'WeatherApp'" :icon="'fa fa-cloud'" :description="'Konumunuza göre havadurumu tahminlerini görebilirsiniz.'">
-  </WidgetAreaHighOrder>
+<div :class="gridTemp" class=" h-52 bg-white">weather</div>
 </template>
