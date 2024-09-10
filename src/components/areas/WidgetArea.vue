@@ -1,16 +1,3 @@
-<script setup lang="ts">
-import WidgetAreaLayout from "@/layouts/WidgetAreaLayout.vue";
-import { useDragAndDropStore } from "@/stores/dragAndDrop";
-import { storeToRefs } from "pinia";
-const dragAndDropStore = useDragAndDropStore();
-const { widgetAreaItems } = storeToRefs(dragAndDropStore);
-
-const drag = (event: DragEvent, widget: any, area: string) => {
-  event.dataTransfer?.setData("text", widget);
-  dragAndDropStore.drag(event, widget, area);
-};
-</script>
-
 <template>
   <WidgetAreaLayout>
     <template #widgets>
@@ -39,5 +26,16 @@ const drag = (event: DragEvent, widget: any, area: string) => {
     </template>
   </WidgetAreaLayout>
 </template>
+<script setup lang="ts">
+import WidgetAreaLayout from "@/layouts/WidgetAreaLayout.vue";
+import { useDragAndDropStore } from "@/stores/dragAndDrop";
+import { storeToRefs } from "pinia";
+const dragAndDropStore = useDragAndDropStore();
+const { widgetAreaItems } = storeToRefs(dragAndDropStore);
 
+const drag = (event: DragEvent, widget: any, area: string) => {
+  event.dataTransfer?.setData("text", widget);
+  dragAndDropStore.drag(event, widget, area);
+};
+</script>
 <style></style>

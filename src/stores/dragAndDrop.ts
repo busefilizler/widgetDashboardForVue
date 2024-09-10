@@ -1,21 +1,27 @@
-import { ref, computed, markRaw } from "vue";
+import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import TodoWidget from "@/components/widgets/TodoWidget.vue";
-import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
+import type { DefineComponent } from 'vue';
+export interface Widget {
+  id: number;
+  name: string;
+  gridTemp: string;
+  component: DefineComponent<{}, {}, any>; // or just string if you're passing component name
+}
 export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   // Widget'ların tanımlandığı ve özelliklerinin belirtildiği veri yapısı
+
   const widgetAreaItems = ref([
     {
       id: 1,
       name: "ToDo List",
       icon: "fa fa-list-ul",
-      component: markRaw(TodoWidget),
+      componentName: 'TodoWidget',
     },
     {
       id: 2,
       name: "Weather",
       icon: "fa fa-cloud",
-      component: markRaw(WeatherWidget),
+      componentName: 'WeatherWidget',
     },
     {
       id: 3,
@@ -91,14 +97,14 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
       name: "ToDo List",
       icon: "fa fa-list-ul",
       gridTemp: "col-span-2",
-      component: markRaw(TodoWidget),
+      componentName: 'TodoWidget',
     },
     {
       id: 2,
       name: "Weather",
       icon: "fa fa-cloud",
       gridTemp: "col-span-1",
-      component: markRaw(WeatherWidget),
+      componentName: 'WeatherWidget',
     },
   ]);
 
@@ -111,6 +117,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   };
 
   const drop = (event: DragEvent, side: string) => {
+    console.log("drop", side);
     event.preventDefault();
     if (side === 'widgetArea') {
       handleDropOnWidgetArea()

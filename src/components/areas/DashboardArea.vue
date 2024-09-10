@@ -16,7 +16,7 @@
       style="box-shadow: 0px 2px 8px #1741711a"
       draggable="true"
     >
-      <component :is="widget.component" :gridTemp="widget.gridTemp" />
+      <component :is="getWidgetComponent(widget.componentName)" :gridTemp="widget.gridTemp" />
     </div>
   </div>
 </template>
@@ -24,7 +24,18 @@
 <script setup lang="ts">
 import { useDragAndDropStore } from "@/stores/dragAndDrop";
 import { storeToRefs } from "pinia";
+import { markRaw } from "vue";
+import TodoWidget from "@/components/widgets/TodoWidget.vue";
+import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
 
+const componentMap = {
+  TodoWidget: markRaw(TodoWidget),
+  WeatherWidget: markRaw(WeatherWidget),
+};
+
+const getWidgetComponent  = (componentName: string) => {
+  return componentMap[componentName] || null;
+};
 const dragAndDropStore = useDragAndDropStore();
 const { dashboardItems } = storeToRefs(dragAndDropStore);
 
