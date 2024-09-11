@@ -12,7 +12,7 @@
           :key="widget.id"
           class="bg-white w-[170px] min-w-[170px] h-[120px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out hover:w-[173px] hover:h-[123px]"
           style="box-shadow: 0px 15px 10px #1741711a"
-           :class="{ ghost: isWidgetInArea(widget.id) }"
+          :class="{ ghost: isWidgetInDashboard(widget.id) }"
           draggable="true"
           @dragstart="drag($event, widget, 'widgetArea')"
         >
@@ -45,7 +45,7 @@ const drag = (event: DragEvent, widget: any, area: string) => {
 const allowDrop = (event: DragEvent) => {
   dragAndDropStore.allowDrop(event);
 };
-const isWidgetInArea = (widgetId: number) => {
+const isWidgetInDashboard = (widgetId: number) => {
   return dashboardItems.value.some((widget) => widget.id === widgetId);
 };
 </script>

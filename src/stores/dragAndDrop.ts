@@ -39,49 +39,52 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const drag = (event: DragEvent, widget: Widget, area: string) => {
     draggedWidget.value = widget;
-    draggedFrom.value = area;
+    draggedFrom.value = area;  // Bu değer "dashboardArea" veya "widgetArea" olacak
   };
+  
 
   const drop = (event: DragEvent, area: string) => {
     event.preventDefault();
     if (!draggedWidget.value) return;
-
-    if (draggedFrom.value === "widgetArea" && area === "dashboardArea") {
-      moveWidgetToDashboard();
-    } else if (draggedFrom.value === "dashboardArea" && area === "widgetArea") {
-      moveWidgetToWidgetArea();
+  
+    // Eğer widgetArea'ya taşıyorsak
+    if (draggedFrom.value === "dashboardArea" && area === "widgetArea") {
+      moveWidgetToWidgetArea();  // widgetArea'ya geri taşır
+    } 
+    // Eğer dashboardArea'ya taşıyorsak
+    else if (draggedFrom.value === "widgetArea" && area === "dashboardArea") {
+      moveWidgetToDashboard();   // dashboardArea'ya taşır
     }
-
+  
+    // Taşıma işlemi sonrası draggedWidget'ı null yap
     draggedWidget.value = null;
   };
+  
 
   const moveWidgetToDashboard = () => {
     if (!draggedWidget.value) return;
-
-    const widgetExists = dashboardItems.value.some(
-      (item) => item.id === draggedWidget.value?.id
-    );
-    if (!widgetExists) {
-      widgetAreaItems.value = widgetAreaItems.value.filter(
-        (item) => item.id !== draggedWidget.value?.id
-      );
-      dashboardItems.value.push(draggedWidget.value);
-    }
+    dashboardItems.value.push(draggedWidget.value);
   };
 
   const moveWidgetToWidgetArea = () => {
     if (!draggedWidget.value) return;
-
-    const widgetExists = widgetAreaItems.value.some(
+  
+    // Widget'ı dashboardItems'tan sil
+    dashboardItems.value = dashboardItems.value.filter(
+      (item) => item.id !== draggedWidget.value?.id
+    );
+  
+    // Widget zaten widgetArea'da değilse ekle
+    const widgetExistsInArea = widgetAreaItems.value.some(
       (item) => item.id === draggedWidget.value?.id
     );
-    if (!widgetExists) {
-      dashboardItems.value = dashboardItems.value.filter(
-        (item) => item.id !== draggedWidget.value?.id
-      );
+    
+    if (!widgetExistsInArea) {
       widgetAreaItems.value.push(draggedWidget.value);
     }
   };
+  
+  
   return {
     widgetAreaItems,
     dashboardItems,
