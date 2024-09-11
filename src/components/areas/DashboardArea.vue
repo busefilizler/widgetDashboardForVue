@@ -4,8 +4,8 @@
     @drop="drop($event, 'dashboardArea')"
     @dragover="allowDrop($event)"
   >
-    <div v-if="dashboardItems.length === 0" class="text-center text-gray-500 col-span-2">
-      Drag and drop widgets here
+    <div v-if="dashboardItems.length === 0" class="text-center flex justify-center items-center text-gray-500 col-span-2 border-dashed border-4 border-violet-900">
+      <div class="text-lg text-violet-900">Drag and drop widgets here</div>
     </div>
     <div
       v-for="widget in dashboardItems"
