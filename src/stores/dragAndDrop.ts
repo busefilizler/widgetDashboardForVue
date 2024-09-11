@@ -1,133 +1,72 @@
-import { ref, computed } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 export interface Widget {
   id: number;
   name: string;
   gridTemp: string;
-  component: string; // or just string if you're passing component name
+  component: string;
 }
-export const useDragAndDropStore = defineStore("dragAndDrop", () => {
-  // Widget'ların tanımlandığı ve özelliklerinin belirtildiği veri yapısı
 
+export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   const widgetAreaItems = ref([
     {
       id: 1,
       name: "ToDo List",
       icon: "fa fa-list-ul",
-      componentName: 'TodoWidget',
+      componentName: "TodoWidget",
     },
     {
       id: 2,
       name: "Weather",
       icon: "fa fa-cloud",
-      componentName: 'WeatherWidget',
+      componentName: "WeatherWidget",
     },
-    {
-      id: 3,
-      name: "Clock",
-      icon: "fa fa-clock-o",
-    },
-    {
-      id: 4,
-      name: "Calculator",
-      icon: "fa fa-calculator",
-    },
-    {
-      id: 5,
-      name: "Calendar",
-      icon: "fa fa-calendar",
-    },
-    {
-      id: 6,
-      name: "News",
-      icon: "fa fa-newspaper-o",
-    },
-    {
-      id: 7,
-      name: "Stocks",
-      icon: "fa fa-line-chart",
-    },
-    {
-      id: 8,
-      name: "Currency",
-      icon: "fa fa-money",
-    },
-    {
-      id: 9,
-      name: "Map",
-      icon: "fa fa-map-marker",
-    },
-    {
-      id: 10,
-      name: "Music",
-      icon: "fa fa-music",
-    },
-    {
-      id: 11,
-      name: "Video",
-      icon: "fa fa-video-camera",
-    },
-    {
-      id: 12,
-      name: "Photo",
-      icon: "fa fa-camera",
-    },
-    {
-      id: 13,
-      name: "Notes",
-      icon: "fa fa-sticky-note",
-    },
-    {
-      id: 14,
-      name: "Chat",
-      icon: "fa fa-comments",
-    },
-    {
-      id: 15,
-      name: "Mail",
-      icon: "fa fa-envelope",
-    },
+    // Diğer widget'lar...
   ]);
 
-  // Sol ve sağ paneldeki widget'ları tutan reaktif değişkenler
   const dashboardItems = ref([
     {
       id: 1,
       name: "ToDo List",
       icon: "fa fa-list-ul",
       gridTemp: "col-span-2",
-      componentName: 'TodoWidget',
+      componentName: "TodoWidget",
     },
     {
       id: 2,
       name: "Weather",
       icon: "fa fa-cloud",
       gridTemp: "col-span-1",
-      componentName: 'WeatherWidget',
+      componentName: "WeatherWidget",
     },
   ]);
 
-  // Sürüklenen widget ve kaynağını tutan reaktif değişkenler
-  const draggedWidget = ref(null);
-  const draggedFrom = ref("");
+  const draggedWidget = ref<Widget | null>(null);
   const lastDragOverEvent = ref<DragEvent | null>(null);
 
-  const drag = (event: DragEvent, widget: any, side: string) => {
+  const drag = (event: DragEvent, widget: Widget) => {
     draggedWidget.value = widget;
   };
 
   const drop = (event: DragEvent, side: string) => {
-    console.log("drop", side);
     event.preventDefault();
-    if (side === 'widgetArea') {
-      handleDropOnWidgetArea()
+    const targetIndex = getTargetIndex(event.target);
+
+    if (side === "dashboardArea" && draggedWidget.value) {
+      // Zaten dashboard'ta olan bir widget'ı yeniden eklemeyin
+      if (
+        !dashboardItems.value.some(
+          (item) => item.id === draggedWidget.value?.id
+        )
+      ) {
+        dashboardItems.value.splice(targetIndex, 0, draggedWidget.value);
+      }
     }
   };
 
-  const handleDragOver = (event: DragEvent, side: string) => {
-    console.log("drag over", side);
-    lastDragOverEvent.value = event; // Event'i burada saklayabilirsiniz
+  const handleDragOver = (event: DragEvent) => {
     event.preventDefault();
+    lastDragOverEvent.value = event;
   };
 
   const allowDrop = (event: DragEvent) => {
@@ -135,36 +74,35 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   };
 
   const handleDropOnWidgetArea = () => {
+    if (draggedWidget.value) {
       dashboardItems.value = dashboardItems.value.filter(
-        (item: { id: number }) =>
-          item.id !== (draggedWidget.value as unknown as { id: number })?.id
+        (item) => item.id !== draggedWidget.value?.id
       );
+    }
   };
 
   const getTargetIndex = (target: any) => {
     const parent = target.closest(".dashboardArea");
     if (parent) {
       const children = Array.from(parent.children);
-      while (target && target.parentElement !== parent) {
-        target = target.parentElement;
+      let targetIndex = children.indexOf(target);
+      if (targetIndex === -1) {
+        targetIndex = children.length; // Son sıraya ekle
       }
-      const index = children.indexOf(target);
-      return index;
+      return targetIndex;
     }
     return -1;
   };
-  
+
   return {
     drop,
     drag,
     handleDragOver,
+    allowDrop,
+    handleDropOnWidgetArea,
     widgetAreaItems,
     dashboardItems,
     draggedWidget,
-    draggedFrom,
-    allowDrop,
-    handleDropOnWidgetArea,
-    getTargetIndex,
     lastDragOverEvent,
   };
 });
