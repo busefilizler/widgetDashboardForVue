@@ -4,17 +4,17 @@
       <div
         class="h-full overflow-x-auto flex items-center gap-9 bg-violet-100 w-full px-4 border border-violet-900 rounded-md"
         style="box-shadow: 0px 10px 15px #1741711a"
-             @drop="drop($event, 'widgetArea')"
-          @dragover="allowDrop($event)"
+        @drop="drop($event, 'widgetArea')"
+        @dragover="allowDrop($event)"
       >
         <div
           v-for="widget in widgetAreaItems"
           :key="widget.id"
           class="bg-white w-[170px] min-w-[170px] h-[120px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out hover:w-[173px] hover:h-[123px]"
           style="box-shadow: 0px 15px 10px #1741711a"
+           :class="{ ghost: isWidgetInArea(widget.id) }"
           draggable="true"
           @dragstart="drag($event, widget, 'widgetArea')"
-          @dragover="handleDragOver($event, 'widgetArea')"
         >
           <div
             class="flex flex-col items-center justify-center gap-3 h-full px-2"
@@ -34,23 +34,24 @@ import WidgetAreaLayout from "@/layouts/WidgetAreaLayout.vue";
 import { useDragAndDropStore } from "@/stores/dragAndDrop";
 import { storeToRefs } from "pinia";
 const dragAndDropStore = useDragAndDropStore();
-const { widgetAreaItems } = storeToRefs(dragAndDropStore);
+const { widgetAreaItems, dashboardItems } = storeToRefs(dragAndDropStore);
 
 const drop = (event: DragEvent, side: string) => {
-  event.dataTransfer?.getData("text");
   dragAndDropStore.drop(event, side);
 };
 const drag = (event: DragEvent, widget: any, area: string) => {
-  event.dataTransfer?.setData("text", widget);
   dragAndDropStore.drag(event, widget, area);
 };
 const allowDrop = (event: DragEvent) => {
-event.dataTransfer?.setData("text", "widget");
-dragAndDropStore.allowDrop(event);
+  dragAndDropStore.allowDrop(event);
 };
-const handleDragOver = (event: DragEvent, area: string) => {
-  event.dataTransfer?.setData("text", "widget");
-  dragAndDropStore.handleDragOver(event, area);
+const isWidgetInArea = (widgetId: number) => {
+  return dashboardItems.value.some((widget) => widget.id === widgetId);
 };
 </script>
-<style></style>
+<style>
+.ghost {
+  opacity: 0.5;
+  pointer-events: none;
+}
+</style>
