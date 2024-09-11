@@ -1,11 +1,10 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import type { DefineComponent } from 'vue';
 export interface Widget {
   id: number;
   name: string;
   gridTemp: string;
-  component: DefineComponent<{}, {}, any>; // or just string if you're passing component name
+  component: string; // or just string if you're passing component name
 }
 export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   // Widget'ların tanımlandığı ve özelliklerinin belirtildiği veri yapısı
@@ -111,6 +110,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   // Sürüklenen widget ve kaynağını tutan reaktif değişkenler
   const draggedWidget = ref(null);
   const draggedFrom = ref("");
+  const lastDragOverEvent = ref<DragEvent | null>(null);
 
   const drag = (event: DragEvent, widget: any, side: string) => {
     draggedWidget.value = widget;
@@ -126,6 +126,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const handleDragOver = (event: DragEvent, side: string) => {
     console.log("drag over", side);
+    lastDragOverEvent.value = event; // Event'i burada saklayabilirsiniz
     event.preventDefault();
   };
 
@@ -164,5 +165,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     allowDrop,
     handleDropOnWidgetArea,
     getTargetIndex,
+    lastDragOverEvent,
   };
 });

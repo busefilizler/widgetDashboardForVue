@@ -12,6 +12,7 @@
           style="box-shadow: 0px 15px 10px #1741711a"
           draggable="true"
           @dragstart="drag($event, widget, 'widgetArea')"
+          @dragover="handleDragOver($event, 'widgetArea')"
         >
           <div
             class="flex flex-col items-center justify-center gap-3 h-full px-2"
@@ -36,6 +37,10 @@ const { widgetAreaItems } = storeToRefs(dragAndDropStore);
 const drag = (event: DragEvent, widget: any, area: string) => {
   event.dataTransfer?.setData("text", widget);
   dragAndDropStore.drag(event, widget, area);
+};
+const handleDragOver = (event: DragEvent, area: string) => {
+  event.dataTransfer?.setData("text", "widget");
+  dragAndDropStore.handleDragOver(event, area);
 };
 </script>
 <style></style>

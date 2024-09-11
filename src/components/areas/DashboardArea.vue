@@ -28,15 +28,19 @@ import { markRaw } from "vue";
 import TodoWidget from "@/components/widgets/TodoWidget.vue";
 import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
 
+// Component map with explicit widget component names
 const componentMap = {
   TodoWidget: markRaw(TodoWidget),
   WeatherWidget: markRaw(WeatherWidget),
 };
 
-const getWidgetComponent  = (componentName: string) => {
+// Function to retrieve the correct component
+const getWidgetComponent = (componentName: keyof typeof componentMap) => {
   return componentMap[componentName] || null;
 };
+
 const dragAndDropStore = useDragAndDropStore();
+// No explicit typing is needed here, let Pinia handle it automatically
 const { dashboardItems } = storeToRefs(dragAndDropStore);
 
 const drop = (event: DragEvent, area: string) => {
@@ -45,9 +49,9 @@ const drop = (event: DragEvent, area: string) => {
 };
 
 const handleDragOver = (event: DragEvent, area: string) => {
-  console.log("drag over", area);
   event.dataTransfer?.setData("text", "widget");
-  dragAndDropStore.allowDrop(event);
+  dragAndDropStore.handleDragOver(event, area);
 };
+
 </script>
 <style></style>
