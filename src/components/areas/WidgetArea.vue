@@ -4,6 +4,8 @@
       <div
         class="h-full overflow-x-auto flex items-center gap-9 bg-violet-100 w-full px-4 border border-violet-900 rounded-md"
         style="box-shadow: 0px 10px 15px #1741711a"
+             @drop="drop($event, 'widgetArea')"
+          @dragover="allowDrop($event)"
       >
         <div
           v-for="widget in widgetAreaItems"
@@ -34,9 +36,17 @@ import { storeToRefs } from "pinia";
 const dragAndDropStore = useDragAndDropStore();
 const { widgetAreaItems } = storeToRefs(dragAndDropStore);
 
+const drop = (event: DragEvent, side: string) => {
+  event.dataTransfer?.getData("text");
+  dragAndDropStore.drop(event, side);
+};
 const drag = (event: DragEvent, widget: any, area: string) => {
   event.dataTransfer?.setData("text", widget);
   dragAndDropStore.drag(event, widget, area);
+};
+const allowDrop = (event: DragEvent) => {
+event.dataTransfer?.setData("text", "widget");
+dragAndDropStore.allowDrop(event);
 };
 const handleDragOver = (event: DragEvent, area: string) => {
   event.dataTransfer?.setData("text", "widget");

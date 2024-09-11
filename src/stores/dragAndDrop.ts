@@ -1,10 +1,12 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
+
 export interface Widget {
   id: number;
   name: string;
   gridTemp: string;
-  component: string;
+  icon: string; // Add icon
+  componentName: "TodoWidget" | "WeatherWidget"; // Restrict to specific components
 }
 
 export const useDragAndDropStore = defineStore("dragAndDrop", () => {
@@ -21,7 +23,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
       icon: "fa fa-cloud",
       componentName: "WeatherWidget",
     },
-    // Diğer widget'lar...
   ]);
 
   const dashboardItems = ref([
@@ -44,7 +45,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   const draggedWidget = ref<Widget | null>(null);
   const lastDragOverEvent = ref<DragEvent | null>(null);
 
-  const drag = (event: DragEvent, widget: Widget) => {
+  const drag = (event: DragEvent, widget: Widget, area: string) => {
     draggedWidget.value = widget;
   };
 
@@ -53,7 +54,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     const targetIndex = getTargetIndex(event.target);
 
     if (side === "dashboardArea" && draggedWidget.value) {
-      // Zaten dashboard'ta olan bir widget'ı yeniden eklemeyin
       if (
         !dashboardItems.value.some(
           (item) => item.id === draggedWidget.value?.id
@@ -64,7 +64,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     }
   };
 
-  const handleDragOver = (event: DragEvent) => {
+  const handleDragOver = (event: DragEvent, area: string) => {
     event.preventDefault();
     lastDragOverEvent.value = event;
   };
@@ -87,7 +87,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
       const children = Array.from(parent.children);
       let targetIndex = children.indexOf(target);
       if (targetIndex === -1) {
-        targetIndex = children.length; // Son sıraya ekle
+        targetIndex = children.length; // Add to the last position
       }
       return targetIndex;
     }
