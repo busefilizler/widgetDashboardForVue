@@ -32,34 +32,64 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const draggedWidget = ref<Widget | null>(null);
   const draggedFrom = ref<string>("");
-
+  const draggedIndex = ref<number | null>(null); 
   const allowDrop = (event: DragEvent) => {
     event.preventDefault();
   };
 
   const drag = (event: DragEvent, widget: Widget, area: string) => {
     draggedWidget.value = widget;
-    draggedFrom.value = area;  // Bu değer "dashboardArea" veya "widgetArea" olacak
+    draggedFrom.value = area;
+
+    if (area === "dashboardArea") {
+      draggedIndex.value = dashboardItems.value.findIndex(
+        (item) => item.id === widget.id
+      );
+    }
   };
-  
 
   const drop = (event: DragEvent, area: string) => {
     event.preventDefault();
     if (!draggedWidget.value) return;
-  
-    // Eğer widgetArea'ya taşıyorsak
-    if (draggedFrom.value === "dashboardArea" && area === "widgetArea") {
-      moveWidgetToWidgetArea();  // widgetArea'ya geri taşır
-    } 
-    // Eğer dashboardArea'ya taşıyorsak
-    else if (draggedFrom.value === "widgetArea" && area === "dashboardArea") {
-      moveWidgetToDashboard();   // dashboardArea'ya taşır
+
+    if (draggedFrom.value === "dashboardArea" && area === "dashboardArea") {
+      // Aynı alan içinde yer değiştiriyoruz
+      const dropTargetIndex = getDropTargetIndex(event);
+      moveWidgetWithinDashboard(draggedIndex.value, dropTargetIndex);
+    } else if (draggedFrom.value === "dashboardArea" && area === "widgetArea") {
+      moveWidgetToWidgetArea();
+    } else if (draggedFrom.value === "widgetArea" && area === "dashboardArea") {
+      moveWidgetToDashboard();
     }
-  
-    // Taşıma işlemi sonrası draggedWidget'ı null yap
+
+    // Drag işlemi bitince sıfırla
     draggedWidget.value = null;
+    draggedIndex.value = null;
   };
-  
+
+  const getDropTargetIndex = (event: DragEvent) => {
+    const dashboardArea = document.querySelector('.dashboardArea');
+    if (!dashboardArea) return 0;
+
+    const widgets = Array.from(dashboardArea.querySelectorAll('.widget'));
+
+    const mouseY = event.clientY;
+    for (let i = 0; i < widgets.length; i++) {
+      const widgetRect = widgets[i].getBoundingClientRect();
+      if (mouseY < widgetRect.top + widgetRect.height / 2) {
+        return i;
+      }
+    }
+    return widgets.length;
+  };
+
+  const moveWidgetWithinDashboard = (fromIndex: number | null, toIndex: number) => {
+    if (fromIndex === null || fromIndex === toIndex) return;
+
+    const widgetToMove = dashboardItems.value[fromIndex];
+    dashboardItems.value.splice(fromIndex, 1); // Eski pozisyondan kaldır
+    dashboardItems.value.splice(toIndex, 0, widgetToMove); // Yeni pozisyona ekle
+  };
 
   const moveWidgetToDashboard = () => {
     if (!draggedWidget.value) return;
@@ -68,23 +98,17 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const moveWidgetToWidgetArea = () => {
     if (!draggedWidget.value) return;
-  
-    // Widget'ı dashboardItems'tan sil
     dashboardItems.value = dashboardItems.value.filter(
       (item) => item.id !== draggedWidget.value?.id
     );
-  
-    // Widget zaten widgetArea'da değilse ekle
     const widgetExistsInArea = widgetAreaItems.value.some(
       (item) => item.id === draggedWidget.value?.id
     );
-    
     if (!widgetExistsInArea) {
       widgetAreaItems.value.push(draggedWidget.value);
     }
   };
-  
-  
+
   return {
     widgetAreaItems,
     dashboardItems,
@@ -92,5 +116,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     drag,
     drop,
     allowDrop,
+    moveWidgetWithinDashboard,
   };
 });
