@@ -134,6 +134,7 @@ const drag = (event: DragEvent, widget: Widgets, area: string) => {
         );
         dashboardItems.value.splice(currentIndex, 1);
         dashboardItems.value.splice(targetIndex, 0, draggedWidget.value);
+        draggedWidget.value.isHidden = false;
       }
       updateWidgetPosition(dashboardItems.value);
     }
