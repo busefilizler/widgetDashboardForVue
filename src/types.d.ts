@@ -12,4 +12,5 @@ export interface Widgets {
   xLocation: number | null;
   yLocation: number | null;
   areaCovered: number | null;
+  isHidden?: boolean;
 }

@@ -75,16 +75,18 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     }
   };
 
-  const drag = (event: DragEvent, widget: Widgets, area: string) => {
-    draggedWidget.value = widget;
-    draggedFrom.value = area;
+const drag = (event: DragEvent, widget: Widgets, area: string) => {
+  draggedWidget.value = widget;
+  draggedFrom.value = area;
 
-    if (area === "dashboardArea") {
-      draggedIndex.value = dashboardItems.value.findIndex(
-        (item: Widgets) => item.id === widget.id
-      );
-    }
-  };
+  if (area === "dashboardArea") {
+    draggedIndex.value = dashboardItems.value.findIndex(
+      (item: Widgets) => item.id === widget.id
+    );
+    // Drag edilen widget'ı gizliyoruz
+    dashboardItems.value[draggedIndex.value].isHidden = true;
+  }
+};
 
   const handleDropOnWidgetArea = () => {
     if (draggedWidget.value) {
