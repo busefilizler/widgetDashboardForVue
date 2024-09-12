@@ -33,10 +33,13 @@ import { storeToRefs } from "pinia";
 import { markRaw } from "vue";
 import TodoWidget from "@/components/widgets/TodoWidget.vue";
 import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
-
+import MotivationWidget from "@/components/widgets/MotivationWidget.vue";
+import TimeWidget from "@/components/widgets/TimeWidget.vue";
 const componentMap = {
   TodoWidget: markRaw(TodoWidget),
   WeatherWidget: markRaw(WeatherWidget),
+  MotivationWidget: markRaw(MotivationWidget),
+  TimeWidget: markRaw(TimeWidget),
 } as const;
 
 const dragAndDropStore = useDragAndDropStore();

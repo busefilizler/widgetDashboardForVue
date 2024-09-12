@@ -1,49 +1,26 @@
 import { ref } from "vue";
 import { defineStore } from "pinia";
-
-export interface Widget {
-  id: number;
-  name: string;
-  gridTemp: string;
-  icon: string;
-  componentName: "TodoWidget" | "WeatherWidget";
-}
-
+import { widgetAreaItems } from "./widgetItems";
+import type { Widgets } from "@/types.d.ts";
 export const useDragAndDropStore = defineStore("dragAndDrop", () => {
-  const widgetAreaItems = ref<Widget[]>([
-    {
-      id: 1,
-      name: "ToDo List",
-      icon: "fa fa-list-ul",
-      gridTemp: "col-span-2",
-      componentName: "TodoWidget",
-    },
-    {
-      id: 2,
-      name: "Weather",
-      icon: "fa fa-cloud",
-      gridTemp: "col-span-1",
-      componentName: "WeatherWidget",
-    },
-  ]);
-
-  const dashboardItems = ref<Widget[]>([
-  ]);
-
-  const draggedWidget = ref<Widget | null>(null);
+  
+  const widgetAreaItemsRef = ref<Widgets[]>(widgetAreaItems);
+  const dashboardItems = ref<Widgets[]>([]);
+  const draggedWidget = ref<Widgets | null>(null);
   const draggedFrom = ref<string>("");
-  const draggedIndex = ref<number | null>(null); 
+  const draggedIndex = ref<number | null>(null);
+
   const allowDrop = (event: DragEvent) => {
     event.preventDefault();
   };
 
-  const drag = (event: DragEvent, widget: Widget, area: string) => {
+  const drag = (event: DragEvent, widget: Widgets, area: string) => {
     draggedWidget.value = widget;
     draggedFrom.value = area;
 
     if (area === "dashboardArea") {
       draggedIndex.value = dashboardItems.value.findIndex(
-        (item) => item.id === widget.id
+        (item: any) => item.id === widget.id
       );
     }
   };
@@ -53,7 +30,6 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     if (!draggedWidget.value) return;
 
     if (draggedFrom.value === "dashboardArea" && area === "dashboardArea") {
-      // Aynı alan içinde yer değiştiriyoruz
       const dropTargetIndex = getDropTargetIndex(event);
       moveWidgetWithinDashboard(draggedIndex.value, dropTargetIndex);
     } else if (draggedFrom.value === "dashboardArea" && area === "widgetArea") {
@@ -61,17 +37,20 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     } else if (draggedFrom.value === "widgetArea" && area === "dashboardArea") {
       moveWidgetToDashboard();
     }
+    cleanUp();
+  };
 
-    // Drag işlemi bitince sıfırla
+  const cleanUp = () => {
     draggedWidget.value = null;
     draggedIndex.value = null;
+    draggedFrom.value = "";
   };
 
   const getDropTargetIndex = (event: DragEvent) => {
-    const dashboardArea = document.querySelector('.dashboardArea');
+    const dashboardArea = document.querySelector(".dashboardArea");
     if (!dashboardArea) return 0;
 
-    const widgets = Array.from(dashboardArea.querySelectorAll('.widget'));
+    const widgets = Array.from(dashboardArea.querySelectorAll(".widget"));
 
     const mouseY = event.clientY;
     for (let i = 0; i < widgets.length; i++) {
@@ -83,12 +62,15 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     return widgets.length;
   };
 
-  const moveWidgetWithinDashboard = (fromIndex: number | null, toIndex: number) => {
+  const moveWidgetWithinDashboard = (
+    fromIndex: number | null,
+    toIndex: number
+  ) => {
     if (fromIndex === null || fromIndex === toIndex) return;
 
     const widgetToMove = dashboardItems.value[fromIndex];
-    dashboardItems.value.splice(fromIndex, 1); // Eski pozisyondan kaldır
-    dashboardItems.value.splice(toIndex, 0, widgetToMove); // Yeni pozisyona ekle
+    dashboardItems.value.splice(fromIndex, 1);
+    dashboardItems.value.splice(toIndex, 0, widgetToMove);
   };
 
   const moveWidgetToDashboard = () => {
@@ -98,19 +80,21 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
 
   const moveWidgetToWidgetArea = () => {
     if (!draggedWidget.value) return;
+
     dashboardItems.value = dashboardItems.value.filter(
       (item) => item.id !== draggedWidget.value?.id
     );
-    const widgetExistsInArea = widgetAreaItems.value.some(
+
+    const widgetExistsInArea = widgetAreaItemsRef.value.some(
       (item) => item.id === draggedWidget.value?.id
     );
     if (!widgetExistsInArea) {
-      widgetAreaItems.value.push(draggedWidget.value);
+      widgetAreaItemsRef.value.push(draggedWidget.value);
     }
   };
 
   return {
-    widgetAreaItems,
+    widgetAreaItems: widgetAreaItemsRef,
     dashboardItems,
     draggedWidget,
     drag,
