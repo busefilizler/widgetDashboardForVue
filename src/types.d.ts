@@ -7,5 +7,9 @@ export interface Widgets {
     | "TodoWidget"
     | "WeatherWidget"
     | "MotivationWidget"
-    | "TimeWidget";
+    | "TimeWidget"
+    | "PlaceholderWidget";
+  xLocation: number | null;
+  yLocation: number | null;
+  areaCovered: number | null;
 }

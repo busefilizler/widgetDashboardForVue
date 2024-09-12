@@ -10,7 +10,7 @@
     <div
       v-for="widget in dashboardItems"
       :key="widget.id"
-      class="widget bg-white rounded-lg p-4 border border-violet-900 border-opacity-10 min-h-[200px]"
+      class="widgetDahboard bg-white rounded-lg p-4 border border-violet-900 border-opacity-10 min-h-[200px]"
       :class="[
         widget.gridTemp === 'col-span-2' ? 'col-span-2 w-full' : 'col-span-1',
         'h-auto',
@@ -35,11 +35,13 @@ import TodoWidget from "@/components/widgets/TodoWidget.vue";
 import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
 import MotivationWidget from "@/components/widgets/MotivationWidget.vue";
 import TimeWidget from "@/components/widgets/TimeWidget.vue";
+import PlaceholderWidget from "../widgets/PlaceholderWidget.vue";
 const componentMap = {
   TodoWidget: markRaw(TodoWidget),
   WeatherWidget: markRaw(WeatherWidget),
   MotivationWidget: markRaw(MotivationWidget),
   TimeWidget: markRaw(TimeWidget),
+  PlaceholderWidget: markRaw(PlaceholderWidget),
 } as const;
 
 const dragAndDropStore = useDragAndDropStore();

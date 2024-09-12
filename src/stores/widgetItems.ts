@@ -7,6 +7,9 @@ import type { Widgets } from "@/types.d.ts";
     icon: "fa fa-list-ul",
     gridTemp: "col-span-2",
     componentName: "TodoWidget",
+    xLocation: null,
+    yLocation: null,
+    areaCovered: 2,
   },
   {
     id: 2,
@@ -14,6 +17,9 @@ import type { Widgets } from "@/types.d.ts";
     icon: "fa fa-cloud-sun-rain",
     gridTemp: "col-span-1",
     componentName: "WeatherWidget",
+    xLocation: null,
+    yLocation: null,
+    areaCovered: 1,
   },
   {
     id: 3,
@@ -21,6 +27,9 @@ import type { Widgets } from "@/types.d.ts";
     icon: "fa fa-sun",
     gridTemp: "col-span-1",
     componentName: "MotivationWidget",
+    xLocation: null,
+    yLocation: null,
+    areaCovered: 1,
   },
   {
     id: 4,
@@ -28,5 +37,8 @@ import type { Widgets } from "@/types.d.ts";
     icon: "fa-solid fa-clock",
     gridTemp: "col-span-1",
     componentName: "TimeWidget",
+    xLocation: null,
+    yLocation: null,
+    areaCovered: 1,
   },
 ];
