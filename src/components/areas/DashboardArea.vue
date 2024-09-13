@@ -25,8 +25,6 @@
     </div>
   </div>
 </template>
-
-
 <script setup lang="ts">
 import { useDragAndDropStore } from "@/stores/dragAndDrop";
 import { storeToRefs } from "pinia";

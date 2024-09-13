@@ -61,8 +61,8 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
       dashboardItems.value = removePlaceholder(dashboardItems.value);
 
       const targetElement = event.target as HTMLElement;
-      const target = targetElement.closest(".widgetDahboard") as HTMLElement | null;
-
+      const target = targetElement.closest(".widgetDahboard") as HTMLElement || targetElement.closest(".dashboardArea") as HTMLElement;
+      console.log(target);
       if (target) {
         const placeholderObj = createPlaceholder(draggedWidget.value, target);
         dashboardItems.value.splice(getDropTargetIndex(event), 0, placeholderObj);
