@@ -1,5 +1,5 @@
 <template>
-  <div class="h-[50px] opacity-0">
+  <div class="h-[50px] opacity-10">
     h
   </div>
 </template>

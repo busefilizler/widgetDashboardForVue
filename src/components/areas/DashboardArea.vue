@@ -16,7 +16,7 @@
       :key="widget.id"
       class="widgetDahboard rounded-lg border border-violet-900 border-opacity-10 min-h-[200px]"
       :class="[
-        widget.name === 'empty' ? 'opacity-0' : '',
+        widget.name === 'empty' ? 'opacity-10' : '',
         widget.gridTemp === 'col-span-2' ? 'col-span-2 w-full' : 'col-span-1',
         'h-auto',
       ]"

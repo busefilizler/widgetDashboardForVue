@@ -58,7 +58,7 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     if (dashboardAreaContainer) {
       const rect = dashboardAreaContainer.getBoundingClientRect();
       const leftBoundary = rect.left + rect.width / 2;
-      const rightBoundary = rect.left + (rect.width * 3) / 4;
+      const rightBoundary = rect.left + (rect.width * 3.2) / 4;
 
       if (event.clientX >= leftBoundary && event.clientX <= rightBoundary) {
         areaCovered = 2;
