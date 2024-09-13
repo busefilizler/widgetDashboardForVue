@@ -6,7 +6,7 @@
   >
     <div
       v-if="dashboardItems.length === 0"
-      class="text-center flex justify-center items-center text-gray-500 col-span-2 border-dashed border-4 border-violet-900 flex-col gap-4"
+      class="text-center flex justify-center rounded-xl items-center text-gray-500 col-span-2 border-dashed border-4 border-violet-900 flex-col gap-4"
     >
       <i class="fa-solid fa-square-plus text-violet-900 text-4xl"></i>
       <div class="text-lg text-violet-900">Drag and drop widgets here</div>
