@@ -8,9 +8,9 @@ export interface Widgets {
     | "WeatherWidget"
     | "MotivationWidget"
     | "TimeWidget"
+    | "EmptyWidget"
     | "PlaceholderWidget";
   xLocation: number | null;
   yLocation: number | null;
   areaCovered: number | null;
-  isHidden?: boolean;
 }

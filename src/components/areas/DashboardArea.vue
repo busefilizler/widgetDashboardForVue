@@ -4,14 +4,19 @@
     @drop="drop($event, 'dashboardArea')"
     @dragover="allowDrop($event)"
   >
-    <div v-if="dashboardItems.length === 0" class="text-center flex justify-center items-center text-gray-500 col-span-2 border-dashed border-4 border-violet-900">
+    <div
+      v-if="dashboardItems.length === 0"
+      class="text-center flex justify-center items-center text-gray-500 col-span-2 border-dashed border-4 border-violet-900 flex-col gap-4"
+    >
+      <i class="fa fa-circle-plus text-violet-900 text-4xl"></i>
       <div class="text-lg text-violet-900">Drag and drop widgets here</div>
     </div>
     <div
       v-for="widget in dashboardItems"
       :key="widget.id"
-      class="widgetDahboard bg-white rounded-lg p-4 border border-violet-900 border-opacity-10 min-h-[200px]"
+      class="widgetDahboard rounded-lg border border-violet-900 border-opacity-10 min-h-[200px]"
       :class="[
+        widget.name === 'empty' ? 'opacity-0' : '',
         widget.gridTemp === 'col-span-2' ? 'col-span-2 w-full' : 'col-span-1',
         'h-auto',
       ]"
@@ -19,6 +24,8 @@
       @dragstart="drag($event, widget, 'dashboardArea')"
     >
       <component
+        class="rounded-lg p-3"
+        :class="widget.name === 'empty' ? 'opacity-0' : ''"
         :is="getWidgetComponent(widget.componentName)"
         :gridTemp="widget.gridTemp"
       />
@@ -34,12 +41,14 @@ import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
 import MotivationWidget from "@/components/widgets/MotivationWidget.vue";
 import TimeWidget from "@/components/widgets/TimeWidget.vue";
 import PlaceholderWidget from "../widgets/PlaceholderWidget.vue";
+import EmptyWidget from "../widgets/EmptyWidget.vue";
 const componentMap = {
   TodoWidget: markRaw(TodoWidget),
   WeatherWidget: markRaw(WeatherWidget),
   MotivationWidget: markRaw(MotivationWidget),
   TimeWidget: markRaw(TimeWidget),
   PlaceholderWidget: markRaw(PlaceholderWidget),
+  EmptyWidget: markRaw(EmptyWidget),
 } as const;
 
 const dragAndDropStore = useDragAndDropStore();

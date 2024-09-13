@@ -10,6 +10,7 @@ declare module 'vue' {
     DashboardArea: typeof import('./src/components/areas/DashboardArea.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']
+    EmptyWidget: typeof import('./src/components/widgets/EmptyWidget.vue')['default']
     LeftArea: typeof import('./src/components/areas/LeftArea.vue')['default']
     MotivationWidget: typeof import('./src/components/widgets/MotivationWidget.vue')['default']
     PlaceholderWidget: typeof import('./src/components/widgets/PlaceholderWidget.vue')['default']

@@ -39,6 +39,17 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     gridTemp: draggedWidget.gridTemp || defaults.gridTemp || "col-span-1",
   });
 
+  const createEmptyWidget = (x: number, y: number, areaCovered: number): Widgets => ({
+    id: 999,
+    name: "empty",
+    componentName: "EmptyWidget",
+    icon: "",
+    xLocation: x || 0,
+    yLocation: y || 0,
+    areaCovered: areaCovered || 1,
+    gridTemp: areaCovered === 2 ? "col-span-2" : "col-span-1" || "col-span-1",
+  });
+
   const allowDrop = (event: DragEvent) => {
     event.preventDefault();
     let areaCovered = 1;
@@ -59,13 +70,19 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     if (draggedWidget.value) {
       updateDraggedWidgetSize(draggedWidget.value, areaCovered);
       dashboardItems.value = removePlaceholder(dashboardItems.value);
-
       const targetElement = event.target as HTMLElement;
       const target = targetElement.closest(".widgetDahboard") as HTMLElement || targetElement.closest(".dashboardArea") as HTMLElement;
-      console.log(target);
       if (target) {
-        const placeholderObj = createPlaceholder(draggedWidget.value, target);
-        dashboardItems.value.splice(getDropTargetIndex(event), 0, placeholderObj);
+        const isWidgetInDashboard = dashboardItems.value.some(
+          (item: any) => item.id === draggedWidget.value?.id
+        );
+        if (!isWidgetInDashboard) {
+          const placeholderObj = createPlaceholder(draggedWidget.value, target);
+          dashboardItems.value.splice(getDropTargetIndex(event), 0, placeholderObj);
+        }
+        if (dashboardItems.value.length > 0 && dashboardItems.value[dashboardItems.value.length - 1].name !== "empty") {
+          dashboardItems.value.push(createEmptyWidget(0, 0, 2));
+        }
       } else {
         const defaults = { gridTemp: "col-span-1" };
         if (dashboardItems.value.length === 0) {
@@ -83,8 +100,6 @@ const drag = (event: DragEvent, widget: Widgets, area: string) => {
     draggedIndex.value = dashboardItems.value.findIndex(
       (item: Widgets) => item.id === widget.id
     );
-    // Drag edilen widget'ı gizliyoruz
-    dashboardItems.value[draggedIndex.value].isHidden = true;
   }
 };
 
@@ -134,7 +149,6 @@ const drag = (event: DragEvent, widget: Widgets, area: string) => {
         );
         dashboardItems.value.splice(currentIndex, 1);
         dashboardItems.value.splice(targetIndex, 0, draggedWidget.value);
-        draggedWidget.value.isHidden = false;
       }
       updateWidgetPosition(dashboardItems.value);
     }
@@ -157,6 +171,10 @@ const drag = (event: DragEvent, widget: Widgets, area: string) => {
     draggedIndex.value = null;
     draggedFrom.value = "";
     dashboardItems.value = removePlaceholder(dashboardItems.value);
+    // delete empty widget from the end of the dashboardItems
+    if (dashboardItems.value.length > 0 && dashboardItems.value[dashboardItems.value.length - 1].name === "empty") {
+      dashboardItems.value.pop();
+    }
   };
 
   const getDropTargetIndex = (event: DragEvent): number => {
