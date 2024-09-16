@@ -1,6 +1,6 @@
 <template>
   <div
-    class="dashboardArea w-full grid grid-cols-2 gap-4 h-fit min-h-[200px] border border-dashed border-gray-300"
+    class="dashboardArea w-full grid grid-cols-2 gap-4 h-fit min-h-[200px]"
     @drop="drop($event, 'dashboardArea')"
     @dragover="allowDrop($event)"
   >
