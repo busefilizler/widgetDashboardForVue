@@ -41,12 +41,14 @@ import WeatherWidget from "@/components/widgets/WeatherWidget.vue";
 import MotivationWidget from "@/components/widgets/MotivationWidget.vue";
 import TimeWidget from "@/components/widgets/TimeWidget.vue";
 import PlaceholderWidget from "../widgets/PlaceholderWidget.vue";
+import CalculatorWidget from "../widgets/CalculatorWidget.vue";
 const componentMap = {
   TodoWidget: markRaw(TodoWidget),
   WeatherWidget: markRaw(WeatherWidget),
   MotivationWidget: markRaw(MotivationWidget),
   TimeWidget: markRaw(TimeWidget),
   PlaceholderWidget: markRaw(PlaceholderWidget),
+  CalculatorWidget: markRaw(CalculatorWidget),
 } as const;
 
 const dragAndDropStore = useDragAndDropStore();

@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CalculatorWidget: typeof import('./src/components/widgets/CalculatorWidget.vue')['default']
     DashboardArea: typeof import('./src/components/areas/DashboardArea.vue')['default']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElTooltip: typeof import('element-plus/es')['ElTooltip']

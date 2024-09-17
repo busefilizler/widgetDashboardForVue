@@ -41,4 +41,14 @@ import type { Widgets } from "@/types.d.ts";
     yLocation: null,
     areaCovered: 1,
   },
+  {
+    id: 5,
+    name: "Calculate",
+    icon: "fa-solid fa-calculator",
+    gridTemp: "col-span-1",
+    componentName: "CalculatorWidget",
+    xLocation: null,
+    yLocation: null,
+    areaCovered: 1,
+  }
 ];

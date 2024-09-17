@@ -8,6 +8,7 @@ export interface Widgets {
     | "WeatherWidget"
     | "MotivationWidget"
     | "TimeWidget"
+    | "CalculatorWidget"
     | "PlaceholderWidget";
   xLocation: number | null;
   yLocation: number | null;
