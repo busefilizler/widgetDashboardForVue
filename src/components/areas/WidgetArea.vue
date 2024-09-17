@@ -10,7 +10,7 @@
         <div
           v-for="widget in widgetAreaItems"
           :key="widget.id"
-          class="bg-white w-[170px] min-w-[170px] h-[120px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out hover:w-[173px] hover:h-[123px] "
+          class="bg-white w-[170px] min-w-[170px] h-[110px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out"
           style="box-shadow: 0px 15px 10px #1741711a"
           :class="{ ghost: isWidgetInDashboard(widget.id) }"
           draggable="true"
