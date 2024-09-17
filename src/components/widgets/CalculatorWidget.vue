@@ -39,6 +39,7 @@ function calculate() {
     :class="gridTemp"
     class="h-[400px] bg-white flex items-center flex-row w-full p-4"
   >
+    <div class="text-3xl font-extrabold text-violet-900">Calculate Me !</div>
     <div class="flex flex-col items-center w-full">
       <div class="">
         <input
