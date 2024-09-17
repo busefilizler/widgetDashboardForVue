@@ -10,7 +10,7 @@
         <div
           v-for="widget in widgetAreaItems"
           :key="widget.id"
-          class="bg-white w-[170px] min-w-[170px] h-[110px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out"
+          class="bg-white w-[160px] min-w-[170px] h-[100px] border border-violet-900 rounded-md cursor-pointer transition duration-300 ease-in-out"
           style="box-shadow: 0px 15px 10px #1741711a"
           :class="{ ghost: isWidgetInDashboard(widget.id) }"
           draggable="true"
@@ -19,8 +19,8 @@
           <div
             class="flex flex-col items-center justify-center gap-3 h-full px-2"
           >
-            <i :class="widget.icon" class="text-violet-900 text-3xl"></i>
-            <div class="text-2xl text-violet-900 font-medium">
+            <i :class="widget.icon" class="text-violet-900 text-2xl"></i>
+            <div class="text-xl text-violet-900 font-medium">
               {{ widget.name }}
             </div>
           </div>
