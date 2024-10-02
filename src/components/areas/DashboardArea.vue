@@ -14,6 +14,7 @@
     <div
       v-for="widget in dashboardItems"
       :key="widget.id"
+       :data-id="widget.id"
       class="widgetDahboard rounded-lg border border-violet-900 border-opacity-10 min-h-[200px]"
       :class="[
         widget.name === 'empty' ? 'opacity-10' : '',

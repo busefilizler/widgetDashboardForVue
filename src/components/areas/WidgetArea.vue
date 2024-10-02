@@ -54,4 +54,5 @@ const isWidgetInDashboard = (widgetId: number) => {
   opacity: 0.5;
   pointer-events: none;
 }
+
 </style>

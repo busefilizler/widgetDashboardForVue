@@ -2,7 +2,8 @@ import { ref } from "vue";
 import { defineStore } from "pinia";
 import { widgetAreaItems } from "./widgetItems";
 import type { Widgets } from "@/types.d.ts";
-
+import { useMouse } from "@vueuse/core"; // useMouse import edilir
+const { x, y } = useMouse();
 export const useDragAndDropStore = defineStore("dragAndDrop", () => {
   const widgetAreaItemsRef = ref<Widgets[]>(widgetAreaItems);
   const dashboardItems = ref<Widgets[]>([]);
@@ -173,28 +174,28 @@ export const useDragAndDropStore = defineStore("dragAndDrop", () => {
     }
   };
 
-  const updateWidgetPosition = (widgets: Widgets[]) => {
-    let x = 0;
-    let y = 0;
-    
-    widgets.forEach((widget) => {
-      if (widget.gridTemp === "col-span-2") {
-        if (x !== 0) y += 1; // İki sütun yer kaplayan widget varsa bir sonraki satıra geçir
-        widget.areaCovered = 2;
-        widget.xLocation = 0;
-        widget.yLocation = y;
-        x = 0; // İki sütunluk widget'tan sonra x sıfırlanır
-        y += 1; // Y satırı artırılır
-      } else if (widget.gridTemp === "col-span-1") {
-        widget.areaCovered = 1;
-        widget.xLocation = x;
-        widget.yLocation = y;
-        x = x === 1 ? 0 : x + 1; // Sıradaki widget sağa doğru yerleştirilir
-        if (x === 0) y += 1; // Her iki sütun dolduğunda bir sonraki satıra geçilir
-      }
-    });
-  };
+const updateWidgetPosition = (widgets: Widgets[]) => {
+  let x = 0;
+  let y = 0;
   
+  widgets.forEach((widget) => {
+    if (widget.gridTemp === "col-span-2") {
+      if (x !== 0) y += 1; // İki sütun yer kaplayan widget varsa bir sonraki satıra geçir
+      widget.areaCovered = 2;
+      widget.xLocation = 0;
+      widget.yLocation = y;
+      x = 0; // İki sütunluk widget'tan sonra x sıfırlanır
+      y += 1; // Y satırı artırılır
+    } else if (widget.gridTemp === "col-span-1") {
+      widget.areaCovered = 1;
+      widget.xLocation = x;
+      widget.yLocation = y;
+      x = x === 1 ? 0 : x + 1; // Sıradaki widget sağa doğru yerleştirilir
+      if (x === 0) y += 1; // Her iki sütun dolduğunda bir sonraki satıra geçilir
+    }
+  });
+};
+
 
   const handleDropOnDashboardArea = (targetIndex: number) => {
     if (draggedWidget.value) {
