@@ -4,7 +4,6 @@ import DashboardPage from "./pages/DashboardPage.vue";
 
 <template>
   <div class="w-screen h-screen p-6">
-    <div class="text-4xl text-violet-900 font-bold">My Dashboard My World!</div>
     <DashboardPage />
   </div>
 </template>

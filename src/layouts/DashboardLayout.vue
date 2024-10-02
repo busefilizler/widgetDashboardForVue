@@ -6,7 +6,7 @@
       <slot name="widgetSide"></slot>
     </div>
 
-    <div class="dashboardArea !w-full min-w-[1200px] h-3/4 bg-violet-50 rounded-md border-violet-900 border mb-6">
+    <div class="dashboardArea !w-full min-w-[1200px] h-3/4 bg-violet-50 rounded-md border-violet-900 border">
       <div
         style="box-shadow: 0px 10px 15px #1741711a"
         class="w-full h-full"

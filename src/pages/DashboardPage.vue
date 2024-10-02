@@ -1,27 +1,34 @@
 <script setup lang="ts">
-import DasboardLayout from '@/layouts/DashboardLayout.vue'
-import WidgetArea from '@/components/areas/WidgetArea.vue'
-import DashboardArea from '@/components/areas/DashboardArea.vue'
-import { useDragAndDropStore } from '@/stores/dragAndDrop'
+import DasboardLayout from "@/layouts/DashboardLayout.vue";
+import WidgetArea from "@/components/areas/WidgetArea.vue";
+import DashboardArea from "@/components/areas/DashboardArea.vue";
+import { useDragAndDropStore } from "@/stores/dragAndDrop";
 
-const dragAndDropStore = useDragAndDropStore()
+const dragAndDropStore = useDragAndDropStore();
 
 const drop = (event: DragEvent, area: string) => {
-  event.dataTransfer?.getData('text')
-  dragAndDropStore.drop(event, area)
-}
+  event.dataTransfer?.getData("text");
+  dragAndDropStore.drop(event, area);
+};
 
 const allowDrop = (event: DragEvent) => {
-  event.dataTransfer?.setData('text', 'widget')
-  dragAndDropStore.allowDrop(event)
-}
+  event.dataTransfer?.setData("text", "widget");
+  dragAndDropStore.allowDrop(event);
+};
 </script>
 
 <template>
   <DasboardLayout>
     <template #widgetSide>
-      <div class=" h-full overflow-x-auto flex items-center" @drop="drop($event, 'widgetArea')"
-      @dragover="allowDrop($event)">
+      <div
+        class="h-full overflow-x-auto flex flex-col items-center"
+        @drop="drop($event, 'widgetArea')"
+        @dragover="allowDrop($event)"
+      >
+        <div class="text-4xl text-violet-900 font-bold">
+          My Dashboard My World!
+        </div>
+
         <WidgetArea />
       </div>
     </template>
@@ -30,7 +37,6 @@ const allowDrop = (event: DragEvent) => {
         <DashboardArea />
       </div>
     </template>
-
   </DasboardLayout>
 </template>
 

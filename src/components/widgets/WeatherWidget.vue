@@ -71,12 +71,16 @@ onMounted(() => {
   <div class="h-[300px] bg-white flex flex-col items-center text-center">
     <div class="flex w-full justify-end">
       <i
+        v-if="weatherData"
         @click="weatherData = null"
         class="fa fa-close cursor-pointer text-3xl text-violet-900 pr-3"
       ></i>
     </div>
     <!-- Input field to enter city name -->
-    <div class="mb-4 flex justify-center flex-col gap-5 h-full -mt-10" v-if="!weatherData">
+    <div
+      class="mb-4 flex justify-center flex-col gap-5 h-full -mt-10"
+      v-if="!weatherData"
+    >
       <div class="flex">
         <input
           v-model="city"
@@ -91,26 +95,32 @@ onMounted(() => {
           Get Weather
         </button>
       </div>
-      <p class="text-violet-900 text-xs">Please enter a city to get the weather.</p>
+      <p class="text-violet-900 text-xs">
+        Please enter a city to get the weather.
+      </p>
     </div>
 
     <!-- Display weather data -->
     <template v-if="weatherData">
-    <div class="w-full h-full  flex flex-row justify-between">
-      <div class="flex flex-col items-start justify-between h-1/2 p-5">
-        <div class="text-violet-900 font-medium text-6xl uppercase">{{ searchedCity }}</div>
-        <p class="capitalize text-xs text-violet-900">{{ weatherData.description }}</p>
-        <p class="text-4xl text-violet-900 pt-6">{{ weatherData.temp }} °C</p>
-      </div>
+      <div class="w-full h-full flex flex-row justify-between">
+        <div class="flex flex-col items-start justify-between h-1/2 p-5">
+          <div class="text-violet-900 font-medium text-6xl uppercase">
+            {{ searchedCity }}
+          </div>
+          <p class="capitalize text-xs text-violet-900">
+            {{ weatherData.description }}
+          </p>
+          <p class="text-4xl text-violet-900 pt-6">{{ weatherData.temp }} °C</p>
+        </div>
 
-      <div class="h-full">
-        <img
+        <div class="h-full">
+          <img
             :src="weatherData.icon"
             :alt="weatherData.description"
             class="w-56 h-56"
           />
+        </div>
       </div>
-    </div>
     </template>
   </div>
 </template>
